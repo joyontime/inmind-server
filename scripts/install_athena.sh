@@ -8,5 +8,5 @@ echo 'deb http://downloads-distro.mongodb.org/repo/debian-sysvinit dist 10gen' |
 sudo apt-get update
 sudo apt-get install mongodb-10gen
 
-sudo service mongodb start
+#sudo service mongodb start
 #mongod --dbpath ~/dbdata/
