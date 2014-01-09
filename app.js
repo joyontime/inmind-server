@@ -4,10 +4,12 @@
 
 var express = require('express');
 var routes = require('./routes');
-var user = require('./routes/user');
+var route_demo = require('./routes/demo');
+var route_plant = require('./routes/plant');
+var route_message = require('./routes/message');
+
 var http = require('http');
 var path = require('path');
-var MessageProvider = require('./messageProvider').MessageProvider;
 
 var app = express();
 
@@ -30,57 +32,28 @@ app.configure(function(){
 app.configure('development', function(){
   app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
 });
-
 app.configure('production', function(){
   app.use(express.errorHandler());
 });
 
-var messageProvider= new MessageProvider('localhost', 27017);
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~ ROUTING ~~~~~~~~~~~~~~~~~~~~~~
 
-app.get('/', function(req, res){
-  messageProvider.findAll(function(error, docs){
-      res.send(docs);
-  });
-})
+// homepage
+app.get('/', routes.home);
 
-app.get('/plant/new', function(req, res) {
-    res.render('plant_new.jade', { locals: {
-        title: 'New Post'
-    }
-    });
-});
+// original webpage based posting
+app.get('/demo/new', route_demo.demo_get);
+app.post('/demo/new', route_demo.demo_post);
 
-app.post('/plant/new', function(req, res){
-    messageProvider.save({
-        title: req.param('title'),
-        body: req.param('body')
-    }, function( error, docs) {
-        res.redirect('/')
-    });
-});
+// messages
+app.get('/messages', route_message.get_messages);
+app.get('/messages/:id', route_message.get_message_by_id);
+app.post('/messages', route_message.post_message);
 
-app.get('/plant/:id', function(req, res) {
-    messageProvider.findById(req.params.id, function(error, message) {
-        res.render('plant_show.jade',
-        { locals: {
-            title: message.title,
-            message:message
-        }
-        });
-    });
-});
+// plants
+app.get('/plants', route_plant.home);
 
-app.post('/plant/addComment', function(req, res) {
-    messageProvider.addCommentToMessage(req.param('_id'), {
-        person: req.param('person'),
-        comment: req.param('comment'),
-        created_at: new Date()
-       } , function( error, docs) {
-           res.redirect('/plant/' + req.param('_id'))
-       });
-});
-
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~ START ~~~~~~~~~~~~~~~~~~~~~~
 http.createServer(app).listen(app.get('port'), function(){
   console.log('InMind server listening on port ' + app.get('port'));
 });
-
