@@ -1,17 +1,36 @@
 /*
  * Message related functions
  */
-var MessageProvider = require('./messageProvider').MessageProvider;
+var MessageProvider = require('../data/messageProvider').MessageProvider;
 var messageProvider= new MessageProvider('localhost', 27017);
 
-exports.get_messages = function(req, res){
+exports.get_all_messages = function(req, res){
     messageProvider.findAll(function(error, docs){
-        res.send(docs);
+      res.json(docs);
     });
+  };
+
+exports.get_messages = function(req, res){
+    messageProvider.checkMessages(
+      req.param('user_id'),
+      req.param('plants'),
+      req.param('pinged_at'),
+      function(error, messages){
+        res.json(messages);
+      }
+    );
   };
 
 exports.post_message = function(req, res){
     res.send("Tried to post a message");
+    messageProvider.save({
+      user_id: req.param('user_id'),
+      text: req.param('text'),
+      plant_id: req.param('plant_id'),
+      }, function (error, message){
+        res.json(message);
+      }
+    );
   };
 
 exports.get_message_by_id = function(req, res) {
