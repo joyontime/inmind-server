@@ -43,17 +43,15 @@ app.get('/', function(req, res){
   });
 })
 
-/*
 app.get('/plant/new', function(req, res) {
     res.render('plant_new.jade', { locals: {
         title: 'New Post'
     }
     });
 });
-*/
 
 app.post('/plant/new', function(req, res){
-    articleProvider.save({
+    messageProvider.save({
         title: req.param('title'),
         body: req.param('body')
     }, function( error, docs) {
@@ -61,21 +59,19 @@ app.post('/plant/new', function(req, res){
     });
 });
 
-/*
 app.get('/plant/:id', function(req, res) {
-    articleProvider.findById(req.params.id, function(error, article) {
+    messageProvider.findById(req.params.id, function(error, message) {
         res.render('plant_show.jade',
         { locals: {
-            title: article.title,
-            article:article
+            title: message.title,
+            message:message
         }
         });
     });
 });
-*/
 
 app.post('/plant/addComment', function(req, res) {
-    articleProvider.addCommentToArticle(req.param('_id'), {
+    messageProvider.addCommentToMessage(req.param('_id'), {
         person: req.param('person'),
         comment: req.param('comment'),
         created_at: new Date()
