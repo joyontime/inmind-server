@@ -47,12 +47,15 @@ app.post('/demo/new', route_demo.demo_post);
 
 // messages
 app.get('/messages', route_message.get_all_messages);
-app.get('/messages/user', route_message.get_messages);
+app.get('/messages/check', route_message.get_messages);
 app.get('/messages/:id', route_message.get_message_by_id);
 app.post('/messages', route_message.post_message);
 
 // plants
 app.get('/plants', route_plant.home);
+app.get('/plants/check', route_plant.get_plants);
+app.post('/plants', route_plant.post_plant);
+app.post('/plants/update/:id', route_plant.update_plant);
 
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~ START ~~~~~~~~~~~~~~~~~~~~~~
 http.createServer(app).listen(app.get('port'), function(){
