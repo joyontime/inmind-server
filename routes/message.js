@@ -21,6 +21,12 @@ exports.get_messages = function(req, res){
     );
   };
 
+exports.get_message_by_id = function(req, res) {
+    messageProvider.findById(req.params.id, function(error, message) {
+      res.json(message);
+    });
+  };
+
 exports.post_message = function(req, res){
     messageProvider.save({
       user_id: req.param('user_id'),
@@ -30,17 +36,6 @@ exports.post_message = function(req, res){
         res.json(message);
       }
     );
-  };
-
-exports.get_message_by_id = function(req, res) {
-    messageProvider.findById(req.params.id, function(error, message) {
-        res.render('messages_show.jade',
-        { locals: {
-            title: message.title,
-            message:message
-        }
-        });
-    });
   };
 
 /*
