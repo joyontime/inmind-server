@@ -22,11 +22,10 @@ exports.get_messages = function(req, res){
   };
 
 exports.post_message = function(req, res){
-    res.send("Tried to post a message");
     messageProvider.save({
       user_id: req.param('user_id'),
       text: req.param('text'),
-      plant_id: req.param('plant_id'),
+      plant: req.param('plant'),
       }, function (error, message){
         res.json(message);
       }
