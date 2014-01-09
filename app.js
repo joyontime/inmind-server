@@ -46,7 +46,8 @@ app.get('/demo/new', route_demo.demo_get);
 app.post('/demo/new', route_demo.demo_post);
 
 // messages
-app.get('/messages', route_message.get_messages);
+app.get('/messages', route_message.get_all_messages);
+app.get('/messages/user', route_message.get_messages);
 app.get('/messages/:id', route_message.get_message_by_id);
 app.post('/messages', route_message.post_message);
 
