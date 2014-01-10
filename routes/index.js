@@ -8,5 +8,7 @@ exports.home = function(req, res){
             req.secure,
             "<br>",
             "You are connecting to:",
-            req.get('Host')].join(' '));
+            req.get('Host'),
+            "<br>",
+            ].join(' '));
 };

@@ -1,1 +1,1 @@
-curl -i http://localhost:3000/messages/user?user_id=joy4luck&plants=[12]
+curl -i https://localhost:3050/messages/user?user_id=joy4luck&plants=[12]
