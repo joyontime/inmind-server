@@ -1,1 +1,2 @@
-curl -i https://localhost:3050/messages/user?user_id=joy4luck&plants=[12]
+curl -k -u joy4luck:boo \
+-i https://localhost:3050/messages/check?pinged_at=0&plants=[12]
