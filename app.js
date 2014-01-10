@@ -8,8 +8,13 @@ var route_demo = require('./routes/demo');
 var route_plant = require('./routes/plant');
 var route_message = require('./routes/message');
 
-var http = require('http');
+var fs = require('fs');
+//var http = require('http');
+var https = require('https');
 var path = require('path');
+var privateKey  = fs.readFileSync('sslcert/server.key', 'utf8');
+var certificate = fs.readFileSync('sslcert/server.crt', 'utf8');
+var credentials = {key: privateKey, cert: certificate};
 
 var app = express();
 
@@ -26,6 +31,15 @@ app.configure(function(){
   app.use(require('stylus').middleware({ src: __dirname + '/public' }));
   app.use(app.router);
   app.use(express.static(__dirname + '/public'));
+  /*
+  function requireHTTPS(req, res, next) {
+      if (!req.secure) {
+          return res.redirect(['https://', req.get('host'), req.url].join(''));
+      }
+      next();
+  }
+  app.use(requireHTTPS);
+  */
 });
 
 // development only
@@ -58,6 +72,16 @@ app.post('/plants', route_plant.post_plant);
 app.post('/plants/update/:id', route_plant.update_plant);
 
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~ START ~~~~~~~~~~~~~~~~~~~~~~
-http.createServer(app).listen(app.get('port'), function(){
-  console.log('InMind server listening on port ' + app.get('port'));
+/*
+var httpPort = app.get('port');                 // normally 80
+var httpServer = http.createServer(app);
+httpServer.listen(httpPort, function(){
+  console.log('InMind HTTP server listening on port ' + httpPort);
+});
+*/
+
+var httpsPort = app.get('port') + 50;           // normally 443
+var httpsServer = https.createServer(credentials, app);
+httpsServer.listen(httpsPort, function(){
+  console.log('InMind HTTPS server listening on port ' + httpsPort);
 });
