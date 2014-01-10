@@ -11,10 +11,21 @@ exports.get_all_messages = function(req, res){
   };
 
 exports.get_messages = function(req, res){
+    var plants = req.query.plants;
+    if( typeof(plants.map)=="undefined")
+      plants = [plants];
+
+    plants = plants.map(function(x){
+        return +x;
+    });
+    var since = new Date(+req.query.pinged_at);
+    console.log([req.user,
+      "asked for messages from:", plants,
+      "Since:", since].join(' '));
     messageProvider.checkMessages(
       req.user,
-      req.param('plants'),
-      req.param('pinged_at'),
+      plants,
+      since,
       function(error, messages){
         res.json(messages);
       }
@@ -31,7 +42,7 @@ exports.post_message = function(req, res){
     messageProvider.save({
       user_id: req.user,
       text: req.param('text'),
-      plant: req.param('plant'),
+      plant: +req.param('plant'),
       }, function (error, message){
         res.json(message);
       }
