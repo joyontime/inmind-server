@@ -36,7 +36,7 @@ exports.post_plant = function(req, res){
     plantProvider.save({
       group_id: req.param('group_id'),
       shared_with: req.param('shared_with'),
-      title: rep.param('title'),
+      title: req.param('title'),
       salt: req.param('salt'),
       passphrase: req.param('passphrase'),
       }, function (error, plant){

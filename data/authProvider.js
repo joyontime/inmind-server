@@ -21,7 +21,7 @@ AuthProvider.prototype.login = function(user, pass, callback) {
     if( error ) callback(error)
     else {
       auth_collection.findOne({"user_id":user}, function(err, res){
-        if (res.passphrase == pass) callback(null, true);
+        if (res.passphrase == pass) callback(null, user);
         else callback(null, false);
       });
     }

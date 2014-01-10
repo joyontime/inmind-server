@@ -12,7 +12,7 @@ exports.get_all_messages = function(req, res){
 
 exports.get_messages = function(req, res){
     messageProvider.checkMessages(
-      req.param('user_id'),
+      req.user,
       req.param('plants'),
       req.param('pinged_at'),
       function(error, messages){
@@ -29,7 +29,7 @@ exports.get_message_by_id = function(req, res) {
 
 exports.post_message = function(req, res){
     messageProvider.save({
-      user_id: req.param('user_id'),
+      user_id: req.user,
       text: req.param('text'),
       plant: req.param('plant'),
       }, function (error, message){
