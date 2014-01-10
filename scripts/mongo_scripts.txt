@@ -16,5 +16,5 @@ db.createCollection("groups");
 db.groups.insert({"group_id":"1", "members":["joy4luck", "foo"], "IV": "6Lz+fkLqEgHhy8eEsH7NSiGbDfxEt3uwyj2sjifcywk", "created_at": ISODate()});
 
 db.createCollection("users");
-db.users.insert({"group_id":"1", "user_id":"joy4luck", "is_lead":true, "created_at": ISODate()});
-db.users.insert({"group_id":"1", "user_id":"foo", "is_lead":false, "created_at": ISODate()});
+db.users.insert({"group_id":"1", "user_id":"joy4luck", "passphrase": "boo", "is_lead":true, "created_at": ISODate()});
+db.users.insert({"group_id":"1", "user_id":"foo", "passphrase": "bar", "is_lead":false, "created_at": ISODate()});

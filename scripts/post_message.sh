@@ -6,4 +6,4 @@ curl \
 --data-urlencode "$USER" \
 --data-urlencode "$TEXT" \
 --data-urlencode "$PLANT" \
--i http://localhost:3000/messages
+-i https://localhost:3050/messages

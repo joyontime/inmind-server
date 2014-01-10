@@ -8,6 +8,9 @@ var route_demo = require('./routes/demo');
 var route_plant = require('./routes/plant');
 var route_message = require('./routes/message');
 
+var AuthProvider = require('./data/authProvider').AuthProvider;
+var authProvider = new AuthProvider('localhost', 27017);
+
 var fs = require('fs');
 //var http = require('http');
 var https = require('https');
@@ -29,8 +32,13 @@ app.configure(function(){
   app.use(express.urlencoded());
   app.use(express.methodOverride());
   app.use(require('stylus').middleware({ src: __dirname + '/public' }));
-  app.use(app.router);
   app.use(express.static(__dirname + '/public'));
+  app.use(express.basicAuth(function(user, pass, callback) {
+    var result = authProvider.login(user, pass, function(err, res){
+      callback(null, res);
+    });
+  }));
+
   /*
   function requireHTTPS(req, res, next) {
       if (!req.secure) {
@@ -40,6 +48,7 @@ app.configure(function(){
   }
   app.use(requireHTTPS);
   */
+  app.use(app.router);
 });
 
 // development only
