@@ -17,30 +17,6 @@ PlantProvider.prototype.getCollection= function(callback) {
   });
 };
 
-PlantProvider.prototype.findAll = function(callback) {
-    this.getCollection(function(error, plant_collection) {
-      if( error ) callback(error)
-      else {
-        plant_collection.find().toArray(function(error, results) {
-          if( error ) callback(error)
-          else callback(null, results)
-        });
-      }
-    });
-};
-
-PlantProvider.prototype.findById = function(id, callback) {
-    this.getCollection(function(error, plant_collection) {
-      if( error ) callback(error)
-      else {
-        plant_collection.findOne({_id: plant_collection.db.bson_serializer.ObjectID.createFromHexString(id)}, function(error, result) {
-          if( error ) callback(error)
-          else callback(null, result)
-        });
-      }
-    });
-};
-
 /*
  * Used by the application on refresh.
  * Looks for plants that the user should recieve, since the last
@@ -48,41 +24,31 @@ PlantProvider.prototype.findById = function(id, callback) {
  */
 PlantProvider.prototype.checkPlants = function(usr_id,
   pinged_at, callback) {
-    if (typeof(usr_id) == "undefined"){
-      callback(null, "Need user ID.");
-    } else {
-      this.getCollection(function(error, plant_collection) {
-        if( error ) callback(error)
-        else {
-          //TODO (joyc): Currently returns all plants.
-          // Filter for plants that have usr_id in shared_with.
-          plant_collection.find().toArray(function(error, results){
-              if( error ) callback(error)
-              else callback(null, results)
-        });
-        }
+    this.getCollection(function(error, plant_collection) {
+      if( error ) callback(error)
+      else {
+        plant_collection.find(
+          {'shared_with': {$in: [usr_id]},
+            'created_at': {$gte: pinged_at}
+        }).toArray(function(error, results){
+            if( error ) callback(error)
+            else callback(null, results)
       });
-    }
+      }
+    });
 };
 
 /**
  * Saves a new plant.
  */
-PlantProvider.prototype.save = function(plants, callback) {
+PlantProvider.prototype.save = function(plant, callback) {
     this.getCollection(function(error, plant_collection) {
       if( error ) callback(error)
       else {
-        if( typeof(plants.length)=="undefined")
-          plants = [plants];
-
-        for( var i =0;i< plants.length;i++ ) {
-          plant = plants[i];
-          plant.created_at = new Date();
-          plant.status = 0;
-        }
-
-        plant_collection.insert(plants, function() {
-          callback(null, plants);
+        plant.created_at = new Date();
+        plant.status = 0;
+        plant_collection.insert([plant], function() {
+          callback(null, plant);
         });
       }
     });
