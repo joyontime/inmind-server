@@ -50,9 +50,21 @@ exports.post_plant = function(req, res){
 };
 
 exports.update_plant = function(req, res){
-    plantProvider.updatePlant(req.params.id,
-      req.param('state'),
+  console.log([req.user.user_id,
+    "( is lead:",
+    req.user.is_lead,
+    ") wants to update: ",
+    req.param('id'),
+    "to",
+    req.param('state')].join(' '));
+  if (!req.user.is_lead){
+    res.json("I'm sorry, you need to have gardener status.");
+  } else {
+    plantProvider.updatePlant(
+      req.param('id'),
+      +req.param('state'),
       function(err, plant){
         res.json("Success!");
     });
-  };
+  }
+};
