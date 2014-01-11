@@ -18,14 +18,16 @@ exports.get_messages = function(req, res){
     plants = plants.map(function(x){
         return +x;
     });
-    var since = new Date(+req.query.pinged_at);
-    console.log([req.user,
-      "asked for messages from:", plants,
-      "Since:", since].join(' '));
+    var pinged_at = new Date(+req.query.pinged_at);
+    console.log([req.user.user_id,
+      "( is lead:",
+      req.user.is_lead,
+      ") asked for messages from:", plants,
+      "Since:", pinged_at].join(' '));
     messageProvider.checkMessages(
-      req.user,
+      req.user.user_id,
       plants,
-      since,
+      pinged_at,
       function(error, messages){
         res.json(messages);
       }
@@ -40,7 +42,7 @@ exports.get_message_by_id = function(req, res) {
 
 exports.post_message = function(req, res){
     messageProvider.save({
-      user_id: req.user,
+      user_id: req.user.user_id,
       text: req.param('text'),
       plant: +req.param('plant'),
       }, function (error, message){

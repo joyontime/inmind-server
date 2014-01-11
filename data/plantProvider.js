@@ -5,7 +5,7 @@ var BSON = require('mongodb').BSON;
 var ObjectID = require('mongodb').ObjectID;
 
 PlantProvider = function(host, port) {
-  this.db = new Db('inm-db', new Server(host, port, {auto_reconnect: true}, {}));
+  this.db = new Db('inm-db', new Server(host, port, {auto_reconnect: true}), {safe:true});
   this.db.open(function(){});
 };
 
