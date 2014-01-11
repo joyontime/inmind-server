@@ -5,7 +5,7 @@ var BSON = require('mongodb').BSON;
 var ObjectID = require('mongodb').ObjectID;
 
 MessageProvider = function(host, port) {
-  this.db= new Db('inm-db', new Server(host, port, {auto_reconnect: true}, {}));
+  this.db= new Db('inm-db', new Server(host, port, {auto_reconnect: true}), {safe:true});
   this.db.open(function(){});
 };
 
@@ -55,9 +55,9 @@ MessageProvider.prototype.checkMessages = function(usr_id, plants,
         if( error ) callback(error)
         else {
           message_collection.find(
-            {user_id: usr_id,
-            plant: {$in: plants},
-            //created_at: {$gte: pinged_at}
+            {'user_id': usr_id,
+            'plant': {$in: plants},
+            'created_at': {$gte: pinged_at}
             }).toArray(function(error, results){
               if( error ) callback(error)
               else callback(null, results)

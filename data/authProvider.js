@@ -5,7 +5,7 @@ var BSON = require('mongodb').BSON;
 var ObjectID = require('mongodb').ObjectID;
 
 AuthProvider = function(host, port) {
-  this.db= new Db('inm-db', new Server(host, port, {auto_reconnect: true}, {}));
+  this.db= new Db('inm-db', new Server(host, port, {auto_reconnect: true}), {safe:true});
   this.db.open(function(){});
 };
 
@@ -21,7 +21,11 @@ AuthProvider.prototype.login = function(user, pass, callback) {
     if( error ) callback(error)
     else {
       auth_collection.findOne({"user_id":user}, function(err, res){
-        if (res.passphrase == pass) callback(null, user);
+        var user_obj = {
+          'user_id': user,
+          'is_lead': res.is_lead,
+          'group_id': res.group_id };
+        if (res.passphrase == pass) callback(null, user_obj);
         else callback(null, false);
       });
     }
