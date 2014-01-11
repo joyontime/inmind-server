@@ -11,9 +11,9 @@ PlantProvider = function(host, port) {
 
 
 PlantProvider.prototype.getCollection= function(callback) {
-  this.db.collection('plants', function(error, plant_collection) {
+  this.db.collection('plants', function(error, p_col) {
     if( error ) callback(error);
-    else callback(null, plant_collection);
+    else callback(null, p_col);
   });
 };
 
@@ -24,12 +24,12 @@ PlantProvider.prototype.getCollection= function(callback) {
  */
 PlantProvider.prototype.checkPlants = function(usr_id,
   pinged_at, callback) {
-    this.getCollection(function(error, plant_collection) {
+    this.getCollection(function(error, p_col) {
       if( error ) callback(error)
       else {
-        plant_collection.find(
+        p_col.find(
           {'shared_with': {$in: [usr_id]},
-            'created_at': {$gte: pinged_at}
+            'modified_at': {$gte: pinged_at}
         }).toArray(function(error, results){
             if( error ) callback(error)
             else callback(null, results)
@@ -42,12 +42,13 @@ PlantProvider.prototype.checkPlants = function(usr_id,
  * Saves a new plant.
  */
 PlantProvider.prototype.save = function(plant, callback) {
-    this.getCollection(function(error, plant_collection) {
+    this.getCollection(function(error, p_col) {
       if( error ) callback(error)
       else {
         plant.created_at = new Date();
-        plant.status = 0;
-        plant_collection.insert([plant], function() {
+        plant.modified_at = new Date();
+        plant.state = 0;
+        p_col.insert([plant], function() {
           callback(null, plant);
         });
       }
@@ -55,16 +56,19 @@ PlantProvider.prototype.save = function(plant, callback) {
 };
 
 /**
- * Updates the status of an existing plant.
+ * Updates the state of an existing plant.
  */
-PlantProvider.prototype.update_plant = function(plant_id, state, callback) {
-    this.getCollection(function(error, plant_collection) {
+PlantProvider.prototype.updatePlant = function(id, state, callback) {
+    this.getCollection(function(error, p_col) {
       if( error ) callback(error)
       else {
-        var one_plant = plant_collection.update({"_id": plant_id},
-          {"status": state},
+        var one_plant = p_col.update(
+          {"_id": p_col.db.bson_serializer.ObjectID.createFromHexString(id)},
+          {"state": state,
+          "modified_at": new Date(),
+          },
           function(){
-            callback(null, result)
+            callback(null, one_plant)
           });
       }
     });
