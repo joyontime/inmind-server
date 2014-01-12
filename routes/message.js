@@ -15,9 +15,6 @@ exports.get_messages = function(req, res){
     if( typeof(plants.map)=="undefined")
       plants = [plants];
 
-    plants = plants.map(function(x){
-        return +x;
-    });
     var pinged_at = new Date(+req.query.pinged_at);
     console.log([req.user.user_id,
       "( is lead:",
@@ -44,7 +41,7 @@ exports.post_message = function(req, res){
     messageProvider.save({
       user_id: req.user.user_id,
       text: req.param('text'),
-      plant: +req.param('plant'),
+      plant: req.param('plant'),
       }, function (error, message){
         res.json(message);
       }
