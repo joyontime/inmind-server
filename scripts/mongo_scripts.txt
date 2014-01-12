@@ -10,7 +10,7 @@ db.messages.insert({"text":"branches", "plant": 12, "user_id": "foo", "created_a
 db.createCollection("plants");
 db.plants.insert({"group_id":"1", "shared_with":["joy4luck", "foo"], "salt": "obEImPruIaCyMjnp9bsIsDE//quH1Z3KXELGJtRP7Rg", "passphrase":"gwAPIBzjcsmC3QyZ4rGEWTKjI1vK9sB3lYL91yPfGsU", "title":"rose", "status":0, "created_at": ISODate()});
 
-db.plants.insert({"group_id":"1", "shared_with":["joy4luck", "foo"], "salt": "hP4veEDMLvJHoxiretsRf3VUZqpRBRhEcAp6abYYF+c", "passphrase":"gwAPIBzjcsmC3QyZ4rGEWTKjI1vK9sB3lYL91yPfGsU", "title":"tulip", "status":0, "created_at": ISODate()});
+db.plants.insert({"group_id":"2", "shared_with":["joy4luck", "foo"], "salt": "e068c517eed0ee3f5fa8a1208bceae595073937f8cdc4f5d2ec7f3e190e9f406", "passphrase":"cb6f5cff7f64c65edf072c0cca1b9f28", "title":"tulip", "status":0, "created_at": ISODate()});
 
 db.createCollection("groups");
 db.groups.insert({"group_id":"1", "members":["joy4luck", "foo"], "IV": "6Lz+fkLqEgHhy8eEsH7NSiGbDfxEt3uwyj2sjifcywk", "created_at": ISODate()});
