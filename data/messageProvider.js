@@ -59,7 +59,19 @@ MessageProvider.prototype.checkMessages = function(usr_id, plants,
             'created_at': {$gte: pinged_at}
             }).toArray(function(error, results){
               if( error ) callback(error)
-              else callback(null, results)
+              else {
+                return_obj = []
+                for( var i =0;i< results.length;i++ ) {
+                  a = {};
+                  a.created_at = results[i].created_at;
+                  a.plant_id = results[i].plant;
+                  a.server_id = results[i]._id;
+                  a.text = results[i].text;
+                  a.user_id = results[i].user_id;
+                  return_obj[i] = a;
+                }
+                callback(null, return_obj);
+              }
           });
         }
       });
@@ -79,7 +91,14 @@ MessageProvider.prototype.save = function(messages, callback) {
         }
 
         message_collection.insert(messages, function() {
-          callback(null, messages);
+          return_obj = []
+          for( var i =0;i< messages.length;i++ ) {
+            a = {};
+            a.created_at = messages[i].created_at;
+            a.server_id = messages[i]._id;
+            return_obj[i] = a;
+          }
+          callback(null, return_obj);
         });
       }
     });

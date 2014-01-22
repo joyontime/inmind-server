@@ -22,9 +22,12 @@ AuthProvider.prototype.login = function(user, pass, callback) {
     else {
       auth_collection.findOne({"user_id":user}, function(err, res){
         var user_obj = {
-          'user_id': user,
+          'username': user,
+          'date_joined': res.created_at,
+          'user_id': res._id,
           'is_lead': res.is_lead,
-          'group_id': res.group_id };
+          'group_id': res.group_id
+        };
         if (res.passphrase == pass) callback(null, user_obj);
         else callback(null, false);
       });

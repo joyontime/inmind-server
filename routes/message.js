@@ -16,8 +16,10 @@ exports.get_messages = function(req, res){
       plants = [plants];
 
     var pinged_at = new Date(+req.query.pinged_at);
-    console.log([req.user.user_id,
-      "( is lead:",
+    console.log([req.user.username,
+      "(",
+      req.user.user_id,
+      " is lead:",
       req.user.is_lead,
       ") asked for messages from:", plants,
       "Since:", pinged_at].join(' '));
@@ -47,16 +49,3 @@ exports.post_message = function(req, res){
       }
     );
   };
-
-/*
-app.post('/messages/addComment', function(req, res) {
-    messageProvider.addCommentToMessage(req.param('_id'), {
-        person: req.param('person'),
-        comment: req.param('comment'),
-        created_at: new Date()
-       } , function( error, docs) {
-           res.redirect('/messages/' + req.param('_id'))
-       });
-});
-*/
-

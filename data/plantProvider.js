@@ -49,7 +49,10 @@ PlantProvider.prototype.save = function(plant, callback) {
         plant.modified_at = new Date();
         plant.state = 0;
         p_col.insert([plant], function() {
-          callback(null, plant);
+          callback(null, {
+            created_at:plant.created_at,
+            server_id:plant._id
+            });
         });
       }
     });

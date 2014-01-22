@@ -33,20 +33,18 @@ exports.get_plants = function(req, res){
 };
 
 exports.post_plant = function(req, res){
-  if (!req.user.is_lead){
-    res.json("I'm sorry, you need to have gardener status.");
-  } else {
-    plantProvider.save({
-      group_id: req.user.group_id,
-      shared_with: JSON.parse(req.param('shared_with')),
-      title: req.param('title'),
-      salt: req.param('salt'),
-      passphrase: req.param('passphrase'),
-      }, function (error, plant){
-        res.json(plant);
-      }
-    );
-  }
+  plantProvider.save({
+    archived: false,
+    color: req.param('color'),
+    group_id: req.user.group_id,
+    passphrase: req.param('passphrase'),
+    salt: req.param('salt'),
+    shared_with: JSON.parse(req.param('shared_with')),
+    title: req.param('title'),
+    }, function (error, plant){
+      res.json(plant);
+    }
+  );
 };
 
 exports.update_plant = function(req, res){
