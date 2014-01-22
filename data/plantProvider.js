@@ -28,11 +28,27 @@ PlantProvider.prototype.checkPlants = function(usr_id,
       if( error ) callback(error)
       else {
         p_col.find(
-          {'shared_with': {$in: [usr_id]},
-            'modified_at': {$gte: pinged_at}
+          {'shared_with': {$in: [usr_id]}
+            //'modified_at': {$gte: pinged_at}
         }).toArray(function(error, results){
             if( error ) callback(error)
-            else callback(null, results)
+            else {
+              return_obj = []
+              for( var i =0;i< results.length;i++ ) {
+                a = {};
+                a.archived = results[i].archived;
+                a.color = results[i].color;
+                a.created_at = results[i].created_at;
+                a.passphrase = results[i].passphrase;
+                a.server_id = results[i]._id;
+                a.salt = results[i].salt;
+                a.shared_with = results[i].shared_with;
+                a.status = results[i].state;
+                a.title = results[i].title;
+                return_obj[i] = a;
+              }
+              callback(null, return_obj);
+            }
       });
       }
     });
@@ -61,18 +77,23 @@ PlantProvider.prototype.save = function(plant, callback) {
 /**
  * Updates the state of an existing plant.
  */
-PlantProvider.prototype.updatePlant = function(id, state, callback) {
+PlantProvider.prototype.updatePlant = function(id, archived, state, callback) {
     this.getCollection(function(error, p_col) {
       if( error ) callback(error)
       else {
-        var one_plant = p_col.update(
+        modified_at = new Date();
+        p_col.update(
           {"_id": p_col.db.bson_serializer.ObjectID.createFromHexString(id)},
-          {"state": state,
-          "modified_at": new Date(),
+          {$set:
+            {"state": state,
+            "archived": archived,
+            "modified_at": modified_at,
+            }
           },
           function(){
-            callback(null, one_plant)
+            callback(null);
           });
+        callback(null, {modified_at: modified_at});
       }
     });
 };

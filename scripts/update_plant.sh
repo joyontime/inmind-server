@@ -1,8 +1,10 @@
-export STATE="state=1"
-export ID="id=52cf0c44982c11e3e91e3c18"
+export ARCHIVED="archived=true"
+export ID="id=52dfc081aa9317db32cb7764"
+export STATE="state=3"
 
 curl \
 -k -u joy4luck:boo \
---data-urlencode "$STATE" \
+--data-urlencode "$ARCHIVED" \
 --data-urlencode "$ID" \
+--data-urlencode "$STATE" \
 -i 'https://localhost:3050/plants/update'

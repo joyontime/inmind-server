@@ -18,8 +18,11 @@ exports.home = function(req, res){
  */
 exports.get_plants = function(req, res){
   var pinged_at = new Date(+req.query.pinged_at);
-  console.log([req.user.user_id,
-    "( is lead:",
+  console.log([
+    req.user.username,
+    "(",
+    req.user.user_id,
+    "is lead:",
     req.user.is_lead,
     ") asked for plants.",
     "Since:", pinged_at].join(' '));
@@ -48,21 +51,21 @@ exports.post_plant = function(req, res){
 };
 
 exports.update_plant = function(req, res){
-  console.log([req.user.user_id,
-    "( is lead:",
+  console.log([
+    req.user.username,
+    "(",
+    req.user.user_id,
+    "is lead:",
     req.user.is_lead,
     ") wants to update: ",
     req.param('id'),
     "to",
     req.param('state')].join(' '));
-  if (!req.user.is_lead){
-    res.json("I'm sorry, you need to have gardener status.");
-  } else {
     plantProvider.updatePlant(
       req.param('id'),
+      req.param('archived')=='true',
       +req.param('state'),
       function(err, plant){
-        res.json("Success!");
+        res.json(plant);
     });
-  }
 };

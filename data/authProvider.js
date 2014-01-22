@@ -24,7 +24,7 @@ AuthProvider.prototype.login = function(user, pass, callback) {
         var user_obj = {
           'username': user,
           'date_joined': res.created_at,
-          'user_id': res._id,
+          'user_id': String(res._id),
           'is_lead': res.is_lead,
           'group_id': res.group_id
         };
