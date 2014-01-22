@@ -5,8 +5,9 @@
 var express = require('express');
 var routes = require('./routes');
 var route_demo = require('./routes/demo');
-var route_plant = require('./routes/plant');
 var route_message = require('./routes/message');
+var route_plant = require('./routes/plant');
+var route_user = require('./routes/user');
 
 var AuthProvider = require('./data/authProvider').AuthProvider;
 var authProvider = new AuthProvider('localhost', 27017);
@@ -78,6 +79,11 @@ app.get('/plants', route_plant.home);
 app.get('/plants/check', route_plant.get_plants);
 app.post('/plants', route_plant.post_plant);
 app.post('/plants/update', route_plant.update_plant);
+
+// users
+app.get('/users', route_user.home);
+app.get('/users/check', route_user.get_users);
+app.post('/users', route_user.post_user);
 
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~ START ~~~~~~~~~~~~~~~~~~~~~~
 /*

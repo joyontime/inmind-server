@@ -28,8 +28,8 @@ PlantProvider.prototype.checkPlants = function(usr_id,
       if( error ) callback(error)
       else {
         p_col.find(
-          {'shared_with': {$in: [usr_id]}
-            //'modified_at': {$gte: pinged_at}
+          {'shared_with': {$in: [usr_id]},
+            'modified_at': {$gte: pinged_at}
         }).toArray(function(error, results){
             if( error ) callback(error)
             else {
