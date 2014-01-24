@@ -35,6 +35,7 @@ app.configure(function(){
   app.use(require('stylus').middleware({ src: __dirname + '/public' }));
   app.use(express.static(__dirname + '/public'));
   app.use(express.basicAuth(function(user, pass, callback) {
+    console.log("Ping from: " + user);
     var result = authProvider.login(user, pass, function(err, res){
       callback(null, res);
     });
@@ -48,6 +49,10 @@ app.configure(function(){
       next();
   }
   app.use(requireHTTPS);
+  app.use(function(req, res, next){
+    console.log(req);
+    next();
+  });
   */
   app.use(app.router);
 });
@@ -94,7 +99,7 @@ httpServer.listen(httpPort, function(){
 });
 */
 
-var httpsPort = app.get('port') + 50;           // normally 443
+var httpsPort = app.get('port') + 50;
 var httpsServer = https.createServer(credentials, app);
 httpsServer.listen(httpsPort, function(){
   console.log('InMind HTTPS server listening on port ' + httpsPort);
