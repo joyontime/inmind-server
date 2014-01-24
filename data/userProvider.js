@@ -37,7 +37,6 @@ UserProvider.prototype.getUser = function(usr_ids, callback) {
         if (error) callback(error)
         else {
           return_obj = [];
-          console.log("RESULTS", res);
           for (var i = 0; i <res.length; i++){
             var user_obj = {
               alias: res[i].alias,
@@ -47,7 +46,6 @@ UserProvider.prototype.getUser = function(usr_ids, callback) {
             }
             return_obj[i] = user_obj;
           }
-          console.log("RETURN OBJ", return_obj);
           callback(return_obj);
         }
       });
