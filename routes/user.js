@@ -26,8 +26,7 @@ exports.get_users = function(req, res){
     req.user.user_id,
     function(error, users){
       userProvider.getUser(users, function(result){
-	return_obj = {"user_list": result};
-        res.json(return_obj);
+        res.json(result);
       });
     }
   );
