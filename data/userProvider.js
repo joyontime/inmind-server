@@ -73,6 +73,27 @@ UserProvider.prototype.checkUsers = function(usr_id, callback) {
   });
 }
 
+/*
+ * Used by the application on refresh.
+ * Looks for users that the user should recieve, since the last
+ * time they queried.
+ */
+UserProvider.prototype.getGroupIV = function(usr_id, callback) {
+    this.getGroupCollection(function(error, group_col) {
+      if( error ) callback(error)
+      else {
+        group_col.findOne({
+          'members': {$in: [usr_id]}
+        }, function(error, results){
+            if( error ) callback(error)
+            else {
+              callback(null, {"IV": results.IV});
+            }
+        })
+      }
+  });
+}
+
 /**
  * Saves a new user.
  */

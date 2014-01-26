@@ -39,6 +39,7 @@ PlantProvider.prototype.checkPlants = function(usr_id,
                 a.archived = results[i].archived;
                 a.color = results[i].color;
                 a.created_at = results[i].created_at;
+                a.owner = results[i].owner;
                 a.passphrase = results[i].passphrase;
                 a.server_id = results[i]._id;
                 a.salt = results[i].salt;

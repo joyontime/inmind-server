@@ -37,8 +37,17 @@ exports.post_user = function(req, res){
     alias: req.param('alias'),
     username: req.param('username'),
     group_id: req.param('group_id'),
-    }, function (error, res){
-      res.json(res);
+    }, function (error, result){
+      res.json(result);
+    }
+  );
+};
+
+exports.get_IV = function(req, res){
+  userProvider.getGroupIV(
+    req.user.user_id,
+    function(error, IV){
+      res.json(IV);
     }
   );
 };

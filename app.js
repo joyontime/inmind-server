@@ -88,6 +88,7 @@ app.post('/plants/update', route_plant.update_plant);
 // users
 app.get('/users', route_user.home);
 app.get('/users/check', route_user.get_users);
+app.get('/users/IV', route_user.get_IV);
 app.post('/users', route_user.post_user);
 
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~ START ~~~~~~~~~~~~~~~~~~~~~~

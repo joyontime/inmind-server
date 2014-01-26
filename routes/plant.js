@@ -40,6 +40,7 @@ exports.post_plant = function(req, res){
     archived: false,
     color: req.param('color'),
     group_id: req.user.group_id,
+    owner: req.user.user_id,
     passphrase: req.param('passphrase'),
     salt: req.param('salt'),
     shared_with: JSON.parse(req.param('shared_with')),
