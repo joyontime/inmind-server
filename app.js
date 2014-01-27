@@ -22,6 +22,11 @@ var credentials = {key: privateKey, cert: certificate};
 
 var app = express();
 
+process.on('uncaughtException', function (err) {
+  console.error(err);
+  console.log("Node NOT Exiting...");
+});
+
 // all environments
 app.configure(function(){
   app.set('port', 3000);
