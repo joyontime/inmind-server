@@ -78,27 +78,18 @@ MessageProvider.prototype.checkMessages = function(usr_id, plants,
     }
 };
 
-MessageProvider.prototype.save = function(messages, callback) {
+MessageProvider.prototype.save = function(message, callback) {
     this.getCollection(function(error, message_collection) {
       if( error ) callback(error)
       else {
-        if( typeof(messages.length)=="undefined")
-          messages = [messages];
+        message.created_at = new Date();
 
-        for( var i =0;i< messages.length;i++ ) {
-          message = messages[i];
-          message.created_at = new Date();
-        }
-
-        message_collection.insert(messages, function() {
+        message_collection.insert([message], function() {
           return_obj = []
-          for( var i =0;i< messages.length;i++ ) {
-            a = {};
-            a.created_at = messages[i].created_at;
-            a.server_id = messages[i]._id;
-            return_obj[i] = a;
-          }
-          callback(null, return_obj);
+          callback(null, {
+            created_at:message.created_at,
+            server_id:message._id
+          });
         });
       }
     });

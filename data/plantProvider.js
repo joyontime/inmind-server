@@ -64,7 +64,7 @@ PlantProvider.prototype.save = function(plant, callback) {
       else {
         plant.created_at = new Date();
         plant.modified_at = new Date();
-        plant.state = 0;
+        plant.state = "0";
         p_col.insert([plant], function() {
           callback(null, {
             created_at:plant.created_at,
@@ -86,7 +86,7 @@ PlantProvider.prototype.updatePlant = function(id, archived, state, callback) {
         p_col.update(
           {"_id": p_col.db.bson_serializer.ObjectID.createFromHexString(id)},
           {$set:
-            {"state": state,
+            {"state": String(state),
             "archived": archived,
             "modified_at": modified_at,
             }

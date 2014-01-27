@@ -36,6 +36,7 @@ exports.get_plants = function(req, res){
 };
 
 exports.post_plant = function(req, res){
+  console.log(req.param('shared_with'));
   plantProvider.save({
     archived: false,
     color: req.param('color'),

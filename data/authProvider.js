@@ -21,15 +21,19 @@ AuthProvider.prototype.login = function(user, pass, callback) {
     if( error ) callback(error)
     else {
       auth_collection.findOne({"user_id":user}, function(err, res){
-        var user_obj = {
-          'username': user,
-          'date_joined': res.created_at,
-          'user_id': String(res._id),
-          'is_lead': res.is_lead,
-          'group_id': res.group_id
-        };
-        if (res.passphrase == pass) callback(null, user_obj);
-        else callback(null, false);
+        if (res == null){
+          callback(null, false);
+        } else {
+          var user_obj = {
+            'username': user,
+            'date_joined': res.created_at,
+            'user_id': String(res._id),
+            'is_lead': res.is_lead,
+            'group_id': res.group_id
+          };
+          if (res.passphrase == pass) callback(null, user_obj);
+          else callback(null, false);
+        }
       });
     }
   });
