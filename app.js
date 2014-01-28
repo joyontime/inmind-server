@@ -96,6 +96,7 @@ app.get('/users/check', route_user.get_users);
 app.get('/users/IV', route_user.get_IV);
 app.get('/users/success', route_user.success);
 app.get('/users/nomatch', route_user.nomatch);
+app.get('/users/bad', route_user.bad);
 app.post('/users', route_user.post_user);
 
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~ START ~~~~~~~~~~~~~~~~~~~~~~

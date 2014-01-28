@@ -38,6 +38,10 @@ exports.get_IV = function(req, res){
   );
 };
 
+function alphanum(input){
+  return ( /[^a-zA-Z0-9]/.test( input ) )
+}
+
 exports.post_user = function(req, res){
   alias = req.param("alias");
   group_id = req.param("group_id");
@@ -45,18 +49,24 @@ exports.post_user = function(req, res){
   pass2 = req.param("password2");
   username = req.param("username");
   if (pass != pass2){
-    res.redirect('/users/nomatch')
-  } else if (false){ 
+    res.redirect('/users/nomatch');
+  } else if (alphanum(alias) || alphanum(group_id) || alphanum(username)){ 
     console.log("Bad Input.");
-    // Scrub input
+    res.redirect('/users/badinput');
   } else {
     userProvider.newUser({
       "alias": alias,
       "group_id": group_id,
-      "password": pass,
-      "username": username,
+      "passphrase": pass,
+      "user_id": username,
     }, function (error, result){
-      res.redirect('/users/success')
+      userProvider.joinGroup(
+        String(result.server_id),
+        group_id,
+        function(){
+          console.log(result);
+          res.redirect('/users/success');
+        });
     });
   }
 };
@@ -74,5 +84,9 @@ exports.success = function(req, res){
 
 exports.nomatch = function(req, res){
   res.send("Your passwords didn't match. :( Please go back and try again.");
+};
+
+exports.bad = function(req, res){
+  res.send("That didn't work. :( Please go back and try again.");
 };
 

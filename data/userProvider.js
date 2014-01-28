@@ -94,26 +94,43 @@ UserProvider.prototype.getGroupIV = function(usr_id, callback) {
   });
 }
 
+function saveToGroup(){
+
+
+}
+
 /**
  * Saves a new user.
  */
 UserProvider.prototype.newUser = function(user, callback) {
-    this.getUserCollection(function(error, user_col) {
-      if( error ) callback(error)
-      else {
-        console.log("Add new user!");
-        /*
-        user.joined_at = new Date();
-        user_col.insert([user], function() {
-          callback(null, {
-            created_at:user.created_at,
-            server_id:user._id
-            });
+  this.getUserCollection(function(error, user_col) {
+    if( error ) callback(error)
+    else {
+      console.log("Add new user!");
+      user.created_at = new Date();
+      user.is_lead = false;
+      user_col.insert([user], function() {
+        callback(null, {
+          created_at:user.created_at,
+          server_id:user._id
         });
-        */
-        callback(null, {});
-      }
-    });
+      });
+    }
+  });
+};
+
+UserProvider.prototype.joinGroup = function(user_id, group_id, callback){
+  this.getGroupCollection(function(error, group_col) {
+    if( error ) callback(error)
+    else {
+    group_col.update(
+      {"group_id": group_id},
+      {$push: {members: user_id}},
+      function(){
+        callback(null);
+      });
+    }
+  });
 };
 
 exports.UserProvider = UserProvider;
