@@ -47,6 +47,7 @@ exports.get_IV = function(req, res){
   userProvider.getGroupIV(
     req.user.user_id,
     function(error, IV){
+      IV.server_id = req.user.user_id;
       res.json(IV);
     }
   );
