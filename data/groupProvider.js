@@ -17,13 +17,6 @@ GroupProvider.prototype.getGroupCollection= function(callback) {
   });
 };
 
-GroupProvider.prototype.getGroupCollection= function(callback) {
-  this.db.collection('groups', function(error, group_col) {
-    if( error ) callback(error);
-    else callback(null, group_col);
-  });
-};
-
 // Find a group, given its group_id.
 GroupProvider.prototype.getGroup = function(usr_ids, callback) {
     this.getGroupCollection(function(error, group_col) {

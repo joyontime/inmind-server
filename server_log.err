@@ -1,0 +1,4 @@
+Failed to load c++ bson extension, using pure JS version
+connect.multipart() will be removed in connect 3.0
+visit https://github.com/senchalabs/connect/wiki/Connect-3.0 for alternatives
+connect.limit() will be removed in connect 3.0

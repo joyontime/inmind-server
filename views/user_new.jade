@@ -1,0 +1,17 @@
+h1= title
+form( method="post")
+    div
+        div
+            span Name (Full, first name, or nickname, etc):
+            input(type="text", name="alias", id="editUserAlias")
+        div
+            span Username (for you to login):
+            input(type="text", name="username", id="editUserUsername")
+        div
+            span Password (also for you to login):
+            input(type="password", name="password", id="editUserPassword")
+        div
+            span Please type your password again:
+            input(type="password", name="password2", id="editUserPassword")
+        div#editUserSubmit
+            input(type="submit", value="Send")

@@ -97,10 +97,12 @@ UserProvider.prototype.getGroupIV = function(usr_id, callback) {
 /**
  * Saves a new user.
  */
-UserProvider.prototype.save = function(user, callback) {
+UserProvider.prototype.newUser = function(user, callback) {
     this.getUserCollection(function(error, user_col) {
       if( error ) callback(error)
       else {
+        console.log("Add new user!");
+        /*
         user.joined_at = new Date();
         user_col.insert([user], function() {
           callback(null, {
@@ -108,6 +110,8 @@ UserProvider.prototype.save = function(user, callback) {
             server_id:user._id
             });
         });
+        */
+        callback(null, {});
       }
     });
 };

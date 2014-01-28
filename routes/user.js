@@ -4,10 +4,6 @@
 var UserProvider = require('../data/userProvider').UserProvider;
 var userProvider= new UserProvider('localhost', 27017);
 
-exports.home = function(req, res){
-  res.send("Looking for users?");
-  };
-
 /**
  * Args:
  *  user
@@ -32,17 +28,6 @@ exports.get_users = function(req, res){
   );
 }
 
-exports.post_user = function(req, res){
-  userProvider.save({
-    alias: req.param('alias'),
-    username: req.param('username'),
-    group_id: req.param('group_id'),
-    }, function (error, result){
-      res.json(result);
-    }
-  );
-};
-
 exports.get_IV = function(req, res){
   userProvider.getGroupIV(
     req.user.user_id,
@@ -52,3 +37,42 @@ exports.get_IV = function(req, res){
     }
   );
 };
+
+exports.post_user = function(req, res){
+  alias = req.param("alias");
+  group_id = req.param("group_id");
+  pass = req.param("password");
+  pass2 = req.param("password2");
+  username = req.param("username");
+  if (pass != pass2){
+    res.redirect('/users/nomatch')
+  } else if (false){ 
+    console.log("Bad Input.");
+    // Scrub input
+  } else {
+    userProvider.newUser({
+      "alias": alias,
+      "group_id": group_id,
+      "password": pass,
+      "username": username,
+    }, function (error, result){
+      res.redirect('/users/success')
+    });
+  }
+};
+
+exports.new_user = function(req, res){
+  console.log(req.param('group_id'));
+  res.render('user_new.jade', 
+    { locals: { title: 'Join InMind' } }
+  );
+};
+
+exports.success = function(req, res){
+  res.send("Success! Go ahead and log in on InMind on your phone.");
+};
+
+exports.nomatch = function(req, res){
+  res.send("Your passwords didn't match. :( Please go back and try again.");
+};
+

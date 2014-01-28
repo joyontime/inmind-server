@@ -29,7 +29,7 @@ process.on('uncaughtException', function (err) {
 
 // all environments
 app.configure(function(){
-  app.set('port', 3000);
+  app.set('port', 443);
   app.set('views', __dirname + '/views');
   app.set('view engine', 'jade');
   app.use(express.bodyParser());
@@ -91,21 +91,16 @@ app.post('/plants', route_plant.post_plant);
 app.post('/plants/update', route_plant.update_plant);
 
 // users
-app.get('/users', route_user.home);
+app.get('/users', route_user.new_user);
 app.get('/users/check', route_user.get_users);
 app.get('/users/IV', route_user.get_IV);
+app.get('/users/success', route_user.success);
+app.get('/users/nomatch', route_user.nomatch);
 app.post('/users', route_user.post_user);
 
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~ START ~~~~~~~~~~~~~~~~~~~~~~
-/*
-var httpPort = app.get('port');                 // normally 80
-var httpServer = http.createServer(app);
-httpServer.listen(httpPort, function(){
-  console.log('InMind HTTP server listening on port ' + httpPort);
-});
-*/
 
-var httpsPort = app.get('port') + 50;
+var httpsPort = app.get('port');
 var httpsServer = https.createServer(credentials, app);
 httpsServer.listen(httpsPort, function(){
   console.log('InMind HTTPS server listening on port ' + httpsPort);

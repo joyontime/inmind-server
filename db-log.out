@@ -1,0 +1,10 @@
+Thu Jan 23 13:39:52.262 [initandlisten] MongoDB starting : pid=14052 port=29017 dbpath=/home/joy/dbdata/ 64-bit host=butterfinger
+Thu Jan 23 13:39:52.262 [initandlisten] db version v2.4.9
+Thu Jan 23 13:39:52.262 [initandlisten] git version: 52fe0d21959e32a5bdbecdc62057db386e4e029c
+Thu Jan 23 13:39:52.262 [initandlisten] build info: Linux ip-10-2-29-40 2.6.21.7-2.ec2.v1.2.fc8xen #1 SMP Fri Nov 20 17:48:28 EST 2009 x86_64 BOOST_LIB_VERSION=1_49
+Thu Jan 23 13:39:52.262 [initandlisten] allocator: tcmalloc
+Thu Jan 23 13:39:52.262 [initandlisten] options: { dbpath: "/home/joy/dbdata/", port: 29017 }
+Thu Jan 23 13:39:52.317 [initandlisten] journal dir=/home/joy/dbdata/journal
+Thu Jan 23 13:39:52.317 [initandlisten] recover : no journal files present, no recovery needed
+Thu Jan 23 13:39:52.378 [websvr] admin web console waiting for connections on port 30017
+Thu Jan 23 13:39:52.378 [initandlisten] waiting for connections on port 29017
