@@ -4,6 +4,25 @@
 var UserProvider = require('../data/userProvider').UserProvider;
 var userProvider= new UserProvider('localhost', 27017);
 
+var potd_happy = "What makes you happy?"
+var potd_happy2 = "What is something you're very thankful for?"
+var potd_happy3 = "What are you most looking forward to this week?"
+var potd_happy4 = "What is one good thing happened/is going to happen today?"
+var potd_happy5 = "What is an activity that makes you feel fulfilled?"
+
+var potd_sad = "What makes you sad?"
+var potd_sad2 = "What is something that worries you?"
+var potd_sad3 = "What are you most worried about today?"
+var potd_sad4 = "What is something you could use help with?"
+var potd_sad5 = "What do you do often that you really dislike?"
+
+var potd_neut = "What is on your mind?"
+var potd_neut2 = "What is something you have to plan out this week?"
+var potd_neut3 = "What do you do to relax?"
+var potd_neut4 = "What is something special that is happening this week?"
+
+
+
 /**
  * Args:
  *  user
@@ -33,6 +52,9 @@ exports.get_IV = function(req, res){
     req.user.user_id,
     function(error, IV){
       IV.server_id = req.user.user_id;
+      IV.POTD_happy = potd_happy;
+      IV.POTD_sad = potd_sad;
+      IV.POTD_neut = potd_neut;
       res.json(IV);
     }
   );
