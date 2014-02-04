@@ -61,7 +61,7 @@ exports.get_IV = function(req, res){
 };
 
 function alphanum(input){
-  return ( /[^a-zA-Z0-9\d\s]/.test( input ) )
+  return ( /[^a-zA-Z0-9\d\s']/.test( input ) )
 }
 
 exports.post_user = function(req, res){
