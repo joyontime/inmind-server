@@ -5,7 +5,7 @@ var UserProvider = require('../data/userProvider').UserProvider;
 var userProvider= new UserProvider('localhost', 27017);
 
 var potd_happy = "What makes you happy?"
-var potd_happy2 = "What is something you're very thankful for?"
+var potd_happy2 = "What is something you're thankful for?"
 var potd_happy3 = "What are you most looking forward to this week?"
 var potd_happy4 = "What is one good thing happened/is going to happen today?"
 var potd_happy5 = "What is an activity that makes you feel fulfilled?"
@@ -52,16 +52,16 @@ exports.get_IV = function(req, res){
     req.user.user_id,
     function(error, IV){
       IV.server_id = req.user.user_id;
-      IV.POTD_happy = potd_happy;
-      IV.POTD_sad = potd_sad;
-      IV.POTD_neut = potd_neut;
+      IV.POTD_happy = potd_happy2;
+      IV.POTD_sad = potd_sad2;
+      IV.POTD_neut = potd_neut2;
       res.json(IV);
     }
   );
 };
 
 function alphanum(input){
-  return ( /[^a-zA-Z0-9]/.test( input ) )
+  return ( /[^a-zA-Z0-9\d\s]/.test( input ) )
 }
 
 exports.post_user = function(req, res){
@@ -72,9 +72,15 @@ exports.post_user = function(req, res){
   username = req.param("username");
   if (pass != pass2){
     res.redirect('/users/nomatch');
-  } else if (alphanum(alias) || alphanum(group_id) || alphanum(username)){ 
-    console.log("Bad Input.");
-    res.redirect('/users/badinput');
+  } else if (alphanum(alias)){
+    console.log("Bad alias " + alias);
+    res.redirect('/users/bad');
+  } else if (alphanum(group_id)) {
+    console.log("Bad group id " + group_id);
+    res.redirect('/users/bad');
+  } else if (alphanum(username)){ 
+    console.log("Bad username " + username);
+    res.redirect('/users/bad');
   } else {
     userProvider.newUser({
       "alias": alias,
