@@ -29,7 +29,8 @@ AuthProvider.prototype.login = function(user, pass, callback) {
             'date_joined': res.created_at,
             'user_id': String(res._id),
             'is_lead': res.is_lead,
-            'group_id': res.group_id
+            'group_id': res.group_id,
+            'pinged_at': res.pinged_at
           };
           if (res.passphrase == pass) callback(null, user_obj);
           else callback(null, false);

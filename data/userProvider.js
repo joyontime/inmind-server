@@ -94,9 +94,20 @@ UserProvider.prototype.getGroupIV = function(usr_id, callback) {
   });
 }
 
-function saveToGroup(){
-
-
+UserProvider.prototype.updatePingedAt = function(usr_id, callback){
+  this.getUserCollection(function(error, user_col){
+    if (error) callback(error)
+    else {
+      console.log("Pinged from " + usr_id);
+      pinged_at = new Date();
+      user_col.update(
+        {"_id": user_col.db.bson_serializer.ObjectID.createFromHexString(usr_id)},
+        {$set: {"pinged_at": new Date()}},
+        function(){
+          callback(null);
+        })
+    }
+  })
 }
 
 /**
