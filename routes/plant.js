@@ -28,6 +28,7 @@ exports.get_plants = function(req, res){
     "Since:", pinged_at].join(' '));
   plantProvider.checkPlants(
     req.user.user_id,
+    req.user.group_id,
     pinged_at,
     function(error, plants){
       res.json(plants);

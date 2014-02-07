@@ -51,11 +51,16 @@ exports.get_IV = function(req, res){
   userProvider.getGroupIV(
     req.user.user_id,
     function(error, IV){
-      IV.server_id = req.user.user_id;
-      IV.POTD_happy = potd_happy2;
-      IV.POTD_sad = potd_sad2;
-      IV.POTD_neut = potd_neut2;
-      res.json(IV);
+      userProvider.updatePingedAt(
+        req.user.user_id,
+        function(error, pinged_at){
+          IV.server_id = req.user.user_id;
+          IV.pinged_at = req.user.pinged_at;
+          IV.POTD_happy = potd_happy2;
+          IV.POTD_sad = potd_sad2;
+          IV.POTD_neut = potd_neut2;
+          res.json(IV);
+        });
     }
   );
 };

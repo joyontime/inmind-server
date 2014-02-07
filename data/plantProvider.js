@@ -22,14 +22,15 @@ PlantProvider.prototype.getCollection= function(callback) {
  * Looks for plants that the user should recieve, since the last
  * time they queried.
  */
-PlantProvider.prototype.checkPlants = function(usr_id,
+PlantProvider.prototype.checkPlants = function(usr_id, group_id,
   pinged_at, callback) {
     this.getCollection(function(error, p_col) {
       if( error ) callback(error)
       else {
         p_col.find(
-          {'shared_with': {$in: [usr_id]},
-            'modified_at': {$gte: pinged_at}
+          {'group_id': group_id,
+          'shared_with': {$in: [usr_id, 'everyone']},
+          'modified_at': {$gte: pinged_at}
         }).toArray(function(error, results){
             if( error ) callback(error)
             else {
@@ -39,6 +40,7 @@ PlantProvider.prototype.checkPlants = function(usr_id,
                 a.archived = results[i].archived;
                 a.color = results[i].color;
                 a.created_at = results[i].created_at;
+                a.modified_at = results[i].modified_at;
                 a.owner = results[i].owner;
                 a.passphrase = results[i].passphrase;
                 a.server_id = results[i]._id;
