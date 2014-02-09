@@ -48,6 +48,7 @@ PlantProvider.prototype.checkPlants = function(usr_id, group_id,
                 a.shared_with = results[i].shared_with;
                 a.status = results[i].state;
                 a.title = results[i].title;
+                a.type = results[i].type;
                 return_obj[i] = a;
               }
               callback(null, return_obj);

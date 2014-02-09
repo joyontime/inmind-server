@@ -47,6 +47,7 @@ exports.post_plant = function(req, res){
     salt: req.param('salt'),
     shared_with: JSON.parse(req.param('shared_with')),
     title: req.param('title'),
+    type: req.param('type'),
     }, function (error, plant){
       res.json(plant);
     }
