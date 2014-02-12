@@ -65,9 +65,13 @@ PlantProvider.prototype.save = function(plant, callback) {
     this.getCollection(function(error, p_col) {
       if( error ) callback(error)
       else {
+        if (plant.type == "plant"){
+          plant.state = "0";
+        } else if (plant.type == "bird"){
+          plant.state = "2";
+        }
         plant.created_at = new Date();
         plant.modified_at = new Date();
-        plant.state = "0";
         p_col.insert([plant], function() {
           callback(null, {
             created_at:plant.created_at,
