@@ -46,6 +46,7 @@ PlantProvider.prototype.checkPlants = function(usr_id, group_id,
                 a.server_id = results[i]._id;
                 a.salt = results[i].salt;
                 a.shared_with = results[i].shared_with;
+                a.smiles = results[i].smiles;
                 a.status = results[i].state;
                 a.title = results[i].title;
                 a.type = results[i].type;
@@ -70,6 +71,7 @@ PlantProvider.prototype.save = function(plant, callback) {
         } else if (plant.type == "bird"){
           plant.state = "2";
         }
+        plant.smiles = "0";
         plant.created_at = new Date();
         plant.modified_at = new Date();
         p_col.insert([plant], function() {
@@ -85,7 +87,7 @@ PlantProvider.prototype.save = function(plant, callback) {
 /**
  * Updates the state of an existing plant.
  */
-PlantProvider.prototype.updatePlant = function(id, archived, state, callback) {
+PlantProvider.prototype.updatePlant = function(id, archived, smiles, state, callback) {
     this.getCollection(function(error, p_col) {
       if( error ) callback(error)
       else {
@@ -93,9 +95,10 @@ PlantProvider.prototype.updatePlant = function(id, archived, state, callback) {
         p_col.update(
           {"_id": p_col.db.bson_serializer.ObjectID.createFromHexString(id)},
           {$set:
-            {"state": String(state),
+            {"state": state,
             "archived": archived,
             "modified_at": modified_at,
+            "smiles": smiles,
             }
           },
           function(){

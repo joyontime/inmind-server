@@ -68,7 +68,8 @@ exports.update_plant = function(req, res){
     plantProvider.updatePlant(
       req.param('id'),
       req.param('archived')=='true',
-      +req.param('state'),
+      req.param('smiles'),
+      req.param('state'),
       function(err, plant){
         res.json(plant);
     });
