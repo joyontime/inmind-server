@@ -51,6 +51,9 @@ PlantProvider.prototype.checkPlants = function(usr_id, group_id,
                 a.title = results[i].title;
                 a.type = results[i].type;
                 return_obj[i] = a;
+                if (return_obj[i].smiles == null){
+                  console.log(return_obj[i]);
+                }
               }
               callback(null, return_obj);
             }
@@ -70,6 +73,8 @@ PlantProvider.prototype.save = function(plant, callback) {
           plant.state = "0";
         } else if (plant.type == "bird"){
           plant.state = "2";
+        } else if (plant.type == "ham"){
+          plant.state = "0";
         }
         plant.smiles = "0";
         plant.created_at = new Date();
